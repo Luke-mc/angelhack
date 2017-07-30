@@ -29,17 +29,48 @@
     <div id="map"></div>
     <script>
 
+  function requestListener(link, listener) {
+  var newReq = new XMLHttpRequest();
+  newReq.addEventListener("load", listener);
+  newReq.open("GET", link);
+  newReq.send();
+}
+
+var beaches = [];
+
+function createBeach() {
+
+  var beachObject = JSON.parse(this.responseText);
+
+  for (var i = 0; i < beachObject.length; i++) {
+    beaches.push({
+      title: beachObject[i].beach,
+      lat: beachObject[i].lat,
+      lon: beachObject[i].lon,
+      zIndex: i
+    });
+  }
+}
+
+function cl (){
+  console.log(beaches);
+}
+
+
+requestListener("http://hawaiibeachsafety.com/rest/conditions.json", createBeach);
+
        function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 8,
-          center: {lat: -34.397, lng: 150.644}
+          center: {lat: 21.3992, lng: -157.72099}
         });
         var geocoder = new google.maps.Geocoder();
 
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
-         setMarkers(map);
+
+         setTimeout(setMarkers(map), 1000);
       }
 
       function geocodeAddress(geocoder, resultsMap) {
@@ -56,17 +87,6 @@
           }
         });
       }
-
-
-// Data for the markers consisting of a name, a LatLng and a zIndex for the
-// order in which these markers should display on top of each other.
-var liqourStores = [
-  ['Bondi Beach', -33.890542, 151.274856, 4],
-  ['Coogee Beach', -33.923036, 151.259052, 5],
-  ['Cronulla Beach', -34.028249, 151.157507, 3],
-  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-  ['Maroubra Beach', -33.950198, 151.259302, 1]
-];
 
 function setMarkers(map) {
   // Adds markers to the map.
@@ -92,15 +112,16 @@ function setMarkers(map) {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
   };
-  for (var i = 0; i < liqourStores.length; i++) {
-    var liquor = liqourStores[i];
+
+  for (var i = 0; i < beaches.length; i++) {
+    var beach = beaches[i];
     var marker = new google.maps.Marker({
-      position: {lat: liquor[1], lng: liquor[2]},
+      position: {lat: parseFloat(beach.lat), lng: parseFloat(beach.lon)},
       map: map,
       icon: image,
       shape: shape,
-      title: liquor[0],
-      zIndex: liquor[3]
+      title: beach.title,
+      zIndex: beach.zIndex
     });
   }
 }

@@ -1,17 +1,34 @@
-function requestListener(link, listener) {
-  var newReq = new XMLHttpRequest();
-  newReq.addEventListener("load", listener);
-  newReq.open("GET", link);
-  newReq.send();
-}
+// function requestListener(link, listener) {
+//   var newReq = new XMLHttpRequest();
+//   newReq.addEventListener("load", listener);
+//   newReq.open("GET", link);
+//   newReq.send();
+// }
 
-function createBeach() {
+// var beaches = [];
 
-  var beachObject = JSON.parse(this.responseText);
+// function createBeach() {
 
-  for(var i = 0; i < beachObject.length; i++) {
-    console.log(beachObject[i]);
-  }
-}
+//   var beachObject = JSON.parse(this.responseText);
 
-requestListener("http://hawaiibeachsafety.com/rest/conditions.json", createBeach);
+//   for (var i = 0; i < beachObject.length; i++) {
+//     beaches.push({
+//       title: beachObject[i].beach,
+//       lat: beachObject[i].lat,
+//       lon: beachObject[i].lon,
+//       zIndex: i
+//     });
+//   }
+// }
+
+// function cl (){
+//   console.log(beaches);
+// }
+
+// // setTimeout(cl, 1000);
+
+
+
+
+
+// requestListener("http://hawaiibeachsafety.com/rest/conditions.json", createBeach);
