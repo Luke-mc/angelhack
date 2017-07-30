@@ -71,6 +71,7 @@ requestListener("http://hawaiibeachsafety.com/rest/conditions.json", createBeach
         });
 
          setTimeout(setMarkers(map), 1000);
+
       }
 
       function geocodeAddress(geocoder, resultsMap) {
@@ -114,7 +115,11 @@ function setMarkers(map) {
   };
 
   for (var i = 0; i < beaches.length; i++) {
+
     var beach = beaches[i];
+        var infowindow = new google.maps.InfoWindow({
+          content: beach.title
+        });
     var marker = new google.maps.Marker({
       position: {lat: parseFloat(beach.lat), lng: parseFloat(beach.lon)},
       map: map,
@@ -123,9 +128,19 @@ function setMarkers(map) {
       title: beach.title,
       zIndex: beach.zIndex
     });
-  }
-}
 
+   attachSecretMessage(marker, beach.title);
+   }
+}
+  function attachSecretMessage(marker, secretMessage) {
+        var infowindow = new google.maps.InfoWindow({
+          content: secretMessage
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(marker.get('map'), marker);
+        });
+      }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9UNg1Hvffdd2d5vC_xofzkJVQHpPzK_M&callback=initMap"
